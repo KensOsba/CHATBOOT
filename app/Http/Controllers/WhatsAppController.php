@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Services\TwilioService;
+use App\Models\WhatsAppMessage;  // <-- Importa el modelo
 
 class WhatsAppController extends Controller
 {
-     protected $twilio;
+    protected $twilio;
 
     public function __construct(TwilioService $twilio)
     {
@@ -19,6 +20,7 @@ class WhatsAppController extends Controller
     {
         $incomingMsg = $request->input('Body');
         $from = $request->input('From'); // Ej: whatsapp:+521234567890
+        $sid = $request->input('SmsSid'); // ID del mensaje en Twilio (opcional)
 
         if (!$incomingMsg || !$from) {
             Log::warning("Mensaje inválido recibido.", $request->all());
@@ -26,6 +28,13 @@ class WhatsAppController extends Controller
         }
 
         Log::info("Mensaje recibido de $from: $incomingMsg");
+
+        // Guardar mensaje en la base de datos
+        WhatsAppMessage::create([
+            'from' => $from,
+            'body' => $incomingMsg,
+            'twilio_sid' => $sid,
+        ]);
 
         // Ejemplo de respuesta según el mensaje
         $respuesta = match (strtolower($incomingMsg)) {
