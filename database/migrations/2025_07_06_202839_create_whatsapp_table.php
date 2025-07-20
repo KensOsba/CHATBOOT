@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('whatsapp', function (Blueprint $table) {
             $table->id();
             $table->string('from', 30);
-            $table->text('body');
+            $table->text('body')->nullable();;
+            $table->text('respuesta')->nullable();;
             $table->string('twilio_sid')->nullable();
             $table->timestamps();
         });

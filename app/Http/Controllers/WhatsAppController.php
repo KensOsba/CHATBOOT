@@ -43,6 +43,13 @@ class WhatsAppController extends Controller
 
         try {
             $this->twilio->sendWhatsAppMessage($from, $respuesta);
+
+            WhatsAppMessage::create([
+                'from' => $from,
+                'respuesta' => $respuesta,
+                'twilio_sid' => $sid,
+            ]);
+            
         } catch (\Exception $e) {
             Log::error("Error enviando mensaje Twilio: " . $e->getMessage());
         }

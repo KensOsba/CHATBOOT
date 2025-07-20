@@ -11,6 +11,7 @@ class WhatsAppMessage extends Model
     protected $fillable = [
         'from',
         'body',
+        'respuesta',
         'twilio_sid',
     ];
 }
