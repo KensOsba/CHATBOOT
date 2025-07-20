@@ -30,8 +30,8 @@ class NotificarPagoInternet extends Command
     {
         try{
 
-            //$clientes = Cliente::where('activo', 1)->get(); // ajusta el filtro según tu lógica
-            $clientes = collect([
+            $clientes = Cliente::where('estatus', 1)->get(); // ajusta el filtro según tu lógica
+            /*$clientes = collect([
                 (object)[
                     'nombre' => 'Juan Pérez',
                     'telefono' => '+5212721819647' // puedes usar el número real aquí
@@ -41,15 +41,15 @@ class NotificarPagoInternet extends Command
                     'telefono' => '+5215581343459' // puedes usar el número real aquí
                 ],
                 // Puedes agregar más objetos si deseas simular varios
-            ]);
+            ]);*/
 
             $this->info("Clientes consultados.");
             Log::info("Clientes consultados.");
 
             foreach ($clientes as $cliente) {
-                $mensaje = "Hola {$cliente->nombre}, te recordamos que el pago del servicio de internet vence este mes. ¡Gracias por tu preferencia!";
-                
-                SendWhatsAppMessageJob::dispatch($cliente->telefono, $mensaje);
+                $mensaje = "Estimado cliente {$cliente->nombre}, te recordamos que el pago del servicio de internet vence este mes. ¡Gracias por tu preferencia!";
+                Log::info($cliente->numero_telefono." - ".$mensaje);
+                SendWhatsAppMessageJob::dispatch($cliente->numero_telefono, $mensaje);
             }
 
             $this->info("Mensajes de WhatsApp despachados a " . $clientes->count() . " clientes.");
