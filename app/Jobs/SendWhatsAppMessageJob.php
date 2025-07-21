@@ -29,10 +29,30 @@ class SendWhatsAppMessageJob implements ShouldQueue
     /**
      * Execute the job.
      */
-    public function handle(): void
-    {
-        $twilio = new TwilioService ();
-        $twilio->sendWhatsAppMessage("whatsapp:{$this->telefono}", $this->mensaje);
+    //public function handle(): void
+   // {
+     //   $twilio = new TwilioService ();
+      //  $twilio->sendWhatsAppMessage("whatsapp:{$this->telefono}", $this->mensaje);
+//
+  //  }
 
+
+public function handle(): void
+{
+    \Log::info("Enviando mensaje a: {$this->telefono}");
+
+    try {
+        $twilio = new TwilioService();
+        $twilio->sendWhatsAppMessage("whatsapp:{$this->telefono}", $this->mensaje);
+        \Log::info("Mensaje enviado a: {$this->telefono}");
+    } catch (\Exception $e) {
+        \Log::error("Error enviando mensaje a {$this->telefono}: " . $e->getMessage());
     }
 }
+
+
+
+
+
+}
+

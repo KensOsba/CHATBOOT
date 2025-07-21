@@ -14,8 +14,11 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         // Ejecutar solo el último día del mes a las 9 AM
-        //$schedule->command('clientes:notificar-pago-internet')->monthlyOn(date('t'), '09:00');
-        $schedule->command('clientes:notificar-pago-internet')->everyMinute();
+        //$schedule->command('clientes:notificar-pago-internet')->monthlyOn(date('t'), '17:55');
+     //   $schedule->command('clientes:notificar-pago-internet')->everyMinute();
+    $schedule->command('clientes:notificar-pago-internet')->everyMinute();
+   
+
     }
 
     /**
